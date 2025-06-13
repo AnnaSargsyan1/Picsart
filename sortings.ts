@@ -125,6 +125,33 @@ class RadixSort implements ISortable {
     }
 }
 
+class MergeSort implements ISortable {
+    execute(data: number[]): number[] {
+        if (data.length <= 1) return data;
+
+        const mid = Math.floor(data.length / 2);
+        const left = this.execute(data.slice(0, mid));
+        const right = this.execute(data.slice(mid));
+
+        return this.#helperMerge(left, right);
+    }
+    #helperMerge(left: number[], right: number[]): number[] {
+        let i = 0, j = 0;
+        const res = [];
+        while (i < left.length && j < right.length) {
+            res.push(left[i] < right[j] ? left[i++] : right[j++]);
+        }
+
+        while (i < left.length) { res.push(left[i++]); }
+        while (j < right.length) { res.push(right[j++]); }
+
+        return res;
+    }
+    toString() {
+        return "merge";
+    }
+}
+
 const data = [9, 4, 6, 2, 1];
 const data2 = [9, 14, 5, 76, 23, 45];
 
@@ -134,17 +161,21 @@ console.log(context.executeSort(data));
 console.log(context.executeSort(data2));
 
 context.setStrategy(new InsertionSort());
-console.log( context.executeSort(data));
+console.log(context.executeSort(data));
 console.log(context.executeSort(data2));
 
 context.setStrategy(new SelectionSort());
-console.log( context.executeSort(data));
+console.log(context.executeSort(data));
 console.log(context.executeSort(data2));
 
 context.setStrategy(new CountingSort());
-console.log( context.executeSort(data));
+console.log(context.executeSort(data));
 console.log(context.executeSort(data2));
 
 context.setStrategy(new RadixSort());
-console.log( context.executeSort(data));
+console.log(context.executeSort(data));
+console.log(context.executeSort(data2));
+
+context.setStrategy(new MergeSort());
+console.log(context.executeSort(data));
 console.log(context.executeSort(data2));
