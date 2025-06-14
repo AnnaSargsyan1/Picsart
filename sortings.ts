@@ -152,6 +152,41 @@ class MergeSort implements ISortable {
     }
 }
 
+class HeapSort implements ISortable {
+    execute (data: number[]): number[] {
+        let end = data.length - 1;
+        let st = Math.floor(data.length / 2) - 1;
+        this.#helperHeapify(data, st, end);
+        while (st >= 0) {
+            this.#helperSwap(data, 0, end);
+            this.#helperHeapify(data, st--, end--);
+        }
+        this.#helperSwap(data, 0, end);
+        return data;
+    }
+    #helperHeapify (data: number[], st: number, end: number) {
+        for (; st >= 0; --st) {
+            let largest = st;
+            let left = 2 * st + 1;
+            let right = 2 * st + 2;
+            if (left < end && data[largest] < data[left]) {
+                largest = left;
+            }
+            if (right < end && data[largest] < data[right]) {
+                largest = right;
+            }
+            if (largest !== st) {
+                this.#helperSwap(data, st, largest);
+            }
+        }
+    }
+    #helperSwap (data: number[], i: number, j: number) {
+        [data[i], data[j]] = [data[j], data[i]];
+    }
+    toString () {
+        return "heap";
+    }
+}
 const data = [9, 4, 6, 2, 1];
 const data2 = [9, 14, 5, 76, 23, 45];
 
@@ -161,21 +196,21 @@ console.log(context.executeSort(data));
 console.log(context.executeSort(data2));
 
 context.setStrategy(new InsertionSort());
-console.log(context.executeSort(data));
+console.log( context.executeSort(data));
 console.log(context.executeSort(data2));
 
 context.setStrategy(new SelectionSort());
-console.log(context.executeSort(data));
+console.log( context.executeSort(data));
 console.log(context.executeSort(data2));
 
 context.setStrategy(new CountingSort());
-console.log(context.executeSort(data));
+console.log( context.executeSort(data));
 console.log(context.executeSort(data2));
 
 context.setStrategy(new RadixSort());
-console.log(context.executeSort(data));
+console.log( context.executeSort(data));
 console.log(context.executeSort(data2));
 
 context.setStrategy(new MergeSort());
-console.log(context.executeSort(data));
+console.log( context.executeSort(data));
 console.log(context.executeSort(data2));
